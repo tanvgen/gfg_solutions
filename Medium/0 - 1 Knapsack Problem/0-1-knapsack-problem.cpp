@@ -20,7 +20,7 @@ class Solution
        for(int i=1; i<n; i++){
            for(int j=1; j<=W; j++){
                int nottake=dp[i-1][j];
-               int take=INT_MIN;
+               int take=0;
                if(j>=wt[i]){
                    take=val[i]+dp[i-1][j-wt[i]];
                }

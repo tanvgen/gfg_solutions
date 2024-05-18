@@ -20,7 +20,7 @@ public:
         for(int i=1; i<N; i++){
             for(int j=0; j<W+1; j++){
                 int nottake=dp[i-1][j];
-                int take=INT_MIN;
+                int take=0;
                 if(wt[i]<=j){
                     take=val[i]+dp[i][j-wt[i]];
                 }

@@ -142,6 +142,8 @@ struct Node
 };
 */
 
+
+
 class Solution {
   public:
     void solve(Node* root, vector<vector<int>> &ans, vector<int> v){
@@ -149,12 +151,12 @@ class Solution {
         v.push_back(root->data);
         if(root->left==NULL && root->right==NULL){
             ans.push_back(v);
-            return;
+            //return;
         }
         
         solve(root->left,ans,v);
         solve(root->right,ans,v);
-        //v.clear();
+        v.pop_back();
     }
     vector<vector<int>> Paths(Node* root) {
         // code here

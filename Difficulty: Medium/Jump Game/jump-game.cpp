@@ -13,7 +13,9 @@ class Solution {
        int maxidxreached=0;
        for(int i=0; i<N; i++){
            if(i>maxidxreached) return 0;
+           if(maxidxreached>=N) return 1;
            maxidxreached=max(maxidxreached,i+A[i]);
+           
        }
        return 1;
     }

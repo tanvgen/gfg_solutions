@@ -11,20 +11,27 @@ class Solution
     int findNumberOfTriangles(int arr[], int n)
     {
         // code here
+        //(a+b)>c
         int ans=0;
         sort(arr,arr+n);
-        for(int i=0; i<n-2; i++){
-            int end=i+2;
-            for(int j=i+1; j<n-1; j++){
-                while(end<n && arr[i]+arr[j]>arr[end]){
-                    end++;
+        for(int c=n-1; c>=2; c--){
+            int a=0;
+            int b=c-1;
+            while(a<b){
+                if(arr[a]+arr[b]>arr[c]){
+                    ans+=(b-a);
+                    b--;
+                }    
+                else{
+                    a++;
                 }
-                ans+=(end-j-1);
             }
+            
         }
         return ans;
     }
 };
+
 
 
 //{ Driver Code Starts.

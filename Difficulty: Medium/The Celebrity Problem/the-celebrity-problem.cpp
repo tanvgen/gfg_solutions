@@ -11,15 +11,32 @@ using namespace std;
 class Solution {
   public:
     // Function to find if there is a celebrity in the party or not.
+    //this wont work, 2 arrays hi banani padegi
     int celebrity(vector<vector<int> >& mat) {
-        // code here
-        for(int i=0,j; i<mat.size(); i++){
-    for(j=0; j<mat.size(); j++)
-        if(mat[i][j]==1 || mat[j][i]==0)
-            if(i!=j) break;
-    if(j == mat.size()) return i;
-}
-return -1;
+       int n=mat.size();
+       int top=0, down=n-1;
+       
+       while(top<down){
+           if(mat[top][down]==1){
+               top++;
+           }
+           else if(mat[down][top]==1){
+               down--;
+           }
+           else{
+               top++;
+               down--;
+           }
+       }
+       
+       for(int i=0; i<n; i++){
+           if(i!=top){
+               if(mat[top][i]!=0 || mat[i][top]==0){
+                   return -1;
+               }
+           }
+       }
+       return top;
     }
 };
 

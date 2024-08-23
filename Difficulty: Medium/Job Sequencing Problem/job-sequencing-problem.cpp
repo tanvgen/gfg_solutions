@@ -15,6 +15,7 @@ struct Job
 
 // } Driver Code Ends
 /*
+
 struct Job 
 { 
     int id;	 // Job Id 
@@ -27,32 +28,37 @@ class Solution
 {
     public:
     //Function to find the maximum profit and the number of jobs done.
-    static bool comp(Job a, Job b){
-        return (a.profit>b.profit);
-    }
     vector<int> JobScheduling(Job arr[], int n) 
     { 
         // your code here
-        sort(arr,arr+n,comp);
-        
+        vector<pair<int,pair<int,int>>> v(n);
+        for(int i=0; i<n; i++){
+            v[i].first=arr[i].profit;
+            v[i].second.first=arr[i].dead;
+            v[i].second.second=arr[i].id;
+        }
+        sort(v.rbegin(),v.rend());
         int maxdeadline=0;
         for(int i=0; i<n; i++){
             maxdeadline=max(maxdeadline,arr[i].dead);
         }
-        vector<int> slot(maxdeadline,-1);
-        
-        int maxprofit=0,num=0;
+        int num=0;
+        int prof=0;
+        vector<int> slots(maxdeadline+1,0);
         for(int i=0; i<n; i++){
-            for(int j=arr[i].dead-1; j>=0; j--){
-                if(slot[j]==-1){
+            int deadline=v[i].second.first;
+            for(int j=deadline; j>0; j--){
+                if(slots[j]==0){
                     num++;
-                    maxprofit+=arr[i].profit;
-                    slot[j]=1;
+                    prof+=v[i].first;
+                    slots[j]=1;
                     break;
                 }
             }
+            
         }
-        return {num,maxprofit};
+        
+        return {num,prof};
     } 
 };
 

@@ -9,45 +9,39 @@ using namespace std;
 
 class Solution{   
 public:
-    long long int f(int ind,int N,int r[],int g[],int b[],int prev,vector<vector<long long int>>& dp)
-    {
-        if(ind==N) return 0;
+    long long solve(int i, int N, int r[], int g[], int b[], vector<vector<long long>> &dp, int prev){
+        if(i>=N) return 0;
+        if(dp[i][prev]!=-1) return dp[i][prev];
         
-        if(dp[ind][prev]!=-1) return dp[ind][prev];
+        long long taker=1e11, takeg=1e11, takeb=1e11;
         
-        long long int taker=1e11,takeg=1e11,takeb=1e11;
-        if(prev==0) // If no color painted
-        {
-            taker=r[ind]+f(ind+1,N,r,g,b,1,dp);
-            takeg=g[ind]+f(ind+1,N,r,g,b,2,dp);
-            takeb=b[ind]+f(ind+1,N,r,g,b,3,dp);
+        if(prev==0){
+            taker=r[i]+solve(i+1,N,r,g,b,dp,1);
+            takeg=g[i]+solve(i+1,N,r,g,b,dp,2);
+            takeb=b[i]+solve(i+1,N,r,g,b,dp,3);
         }
-        else if(prev==1) // If red color painted
-        {
-            takeg=g[ind]+f(ind+1,N,r,g,b,2,dp);
-            takeb=b[ind]+f(ind+1,N,r,g,b,3,dp);
+        else if(prev==1){
+            takeg=g[i]+solve(i+1,N,r,g,b,dp,2);
+            takeb=b[i]+solve(i+1,N,r,g,b,dp,3);
         }
-        else if(prev==2) // If Green Color painted
-        {
-            taker=r[ind]+f(ind+1,N,r,g,b,1,dp);
-            takeb=b[ind]+f(ind+1,N,r,g,b,3,dp);
+        else if(prev==2){
+            taker=r[i]+solve(i+1,N,r,g,b,dp,1);
+            takeb=b[i]+solve(i+1,N,r,g,b,dp,3);
         }
-        else // If Blue Color painted
-        {
-            takeg=r[ind]+f(ind+1,N,r,g,b,1,dp);
-            takeb=g[ind]+f(ind+1,N,r,g,b,2,dp);
+        else{
+            taker=r[i]+solve(i+1,N,r,g,b,dp,1);
+            takeg=g[i]+solve(i+1,N,r,g,b,dp,2);
         }
-        return dp[ind][prev]=min(taker,min(takeb,takeg));
+        
+        return dp[i][prev]=min(taker,min(takeg,takeb));
     }
     long long int distinctColoring(int N, int r[], int g[], int b[]){
-        vector<vector<long long int>>  dp(N,vector<long long int>(4,-1));
-        return f(0,N,r,g,b,0,dp);
-        // 0 -> no color
-        // 1 -> red color
-        // 2 -> green color
-        // 3 -> blue color
+        // code here 
+        vector<vector<long long>> dp(N,vector<long long>(4,-1));
+        return solve(0,N,r,g,b,dp,0);
     }
 };
+
 
 //{ Driver Code Starts.
 int main() 

@@ -11,23 +11,18 @@ using namespace std;
 class Solution{
 public:
 	// #define ll long long
-
+    //  consider the test case 30 4 23 6 to understand it better
 	ll countSubarray(int arr[], int n, int k) {
 	    // code here
-	    ll ans=0;
-	    bool flag=false;
-	    int idx=0;
-	    for(int i=0; i<n; i++){
-	        if(arr[i]>k){
-	            ans+=(i-idx+1)*(n-i);
-	            //cout<<ans<<endl;
-	            idx=i+1;
-	        }
-	       // else if(arr[i]>k && flag==true){
-	       //     ans+=(n-i);
-	       // }
-	    }
-	    return ans;
+	    ll ans=0,sec_num=0;
+        for(int i=0;i<n;i++){
+            if(arr[i]>k){
+                sec_num=i+1;
+            }
+
+            ans+=sec_num;
+        }
+     return ans;
 	}
 };
 

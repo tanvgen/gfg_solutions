@@ -9,35 +9,27 @@ class Solution {
     vector<int> asteroidCollision(int N, vector<int> &asteroids) {
         // code here
         stack<int> st;
-        for(int i=0; i<N; i++){
-            if(asteroids[i]>0){
-                st.push(asteroids[i]);
+        for(auto x:asteroids){
+            if(st.empty()){
+                st.push(x);
             }
             else{
-                if(st.empty() || (!st.empty() && st.top()<0)){
-                    st.push(asteroids[i]); 
-                    continue;
-                }
-                else if(!st.empty() && st.top()>0){
-                    if(st.top()>abs(asteroids[i])){
-                        continue;
-                    }
-                    else{
-                        while(!st.empty() && st.top()>0 && st.top()<abs(asteroids[i])){
-                            st.pop();
-                        }
-                        if(!st.empty() && st.top()>0 && st.top()==abs(asteroids[i])){
-                            st.pop();
-                            continue;
-                        }
-                        else if(!st.empty() && st.top()>0 && st.top()>abs(asteroids[i])){
-                            continue;
-                        }
-                        else{
-                            st.push(asteroids[i]);
-                        }
-                    }
-                }
+               if(x>0){
+                   st.push(x);
+               }
+               else{
+                   while(!st.empty() && st.top()>0 && st.top()<abs(x)){
+                       st.pop();
+                   }
+                   if(!st.empty() && st.top() == abs(x)){
+                       st.pop();
+                       continue;
+                   }
+                   if(!st.empty() && st.top()>abs(x)){
+                       continue;
+                   }
+                   st.push(x);
+               }
             }
         }
         vector<int> ans;
@@ -45,7 +37,7 @@ class Solution {
             ans.push_back(st.top());
             st.pop();
         }
-        reverse(ans.begin(), ans.end());
+        reverse(ans.begin(),ans.end());
         return ans;
     }
 };

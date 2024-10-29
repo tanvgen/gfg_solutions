@@ -10,27 +10,29 @@ using namespace std;
 
 class Solution {
   public:
-    bool dfs(int node, int vis[], int pathvis[], vector<int> adj[]){
+    bool dfs(int node, int V, vector<int> adj[], vector<int> &vis, vector<int> &pathvis){
         vis[node]=1;
         pathvis[node]=1;
         
-        for(auto it: adj[node]){
+        for(auto it:adj[node]){
             if(!vis[it]){
-                if(dfs(it,vis,pathvis,adj)) return 1;
-            } 
-            else if(pathvis[it])  return 1;
+                if(dfs(it,V,adj,vis,pathvis)) return true;
+            }
+            else if(vis[it] && pathvis[it]){
+                return true;
+            }
         }
         pathvis[node]=0;
         return false;
     }
     vector<int> eventualSafeNodes(int V, vector<int> adj[]) {
         // code here
-        int vis[V]={0};
-        int pathvis[V]={0};
+        vector<int> vis(V,0);
+        vector<int> pathvis(V,0);
         
         for(int i=0; i<V; i++){
             if(!vis[i]){
-                dfs(i,vis,pathvis,adj);
+                dfs(i,V,adj,vis,pathvis);
             }
         }
         vector<int> ans;
@@ -38,7 +40,6 @@ class Solution {
             if(pathvis[i]==0) ans.push_back(i);
         }
         return ans;
-        
     }
 };
 
@@ -66,7 +67,9 @@ int main() {
             cout << i << " ";
         }
         cout << endl;
-    }
+    
+cout << "~" << "\n";
+}
 }
 
 // } Driver Code Ends

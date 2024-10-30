@@ -13,38 +13,36 @@ class Solution {
     int shortestPath(vector<vector<int>> &grid, pair<int, int> source,
                      pair<int, int> destination) {
         // code here
-        if (source.first == destination.first &&
-            source.second == destination.second)
-            return 0;
         int n=grid.size();
         int m=grid[0].size();
-        vector<vector<int>> dist(n,vector<int>(m,INT_MAX));
-        int dx[]={0,0,1,-1};
-        int dy[]={1,-1,0,0};
-        queue<pair<int,pair<int,int>>> q;
-        q.push({0,{source.first,source.second}});
-        dist[source.first][source.second]=0;
+        vector<vector<int>>vis(n,vector<int>(m,0));
+        queue<pair<pair<int,int>,int>>q;
+        q.push({source,0});
+        int ans=INT_MAX;
         
         while(!q.empty()){
-            auto it=q.front();
+            int r=q.front().first.first;
+            int c=q.front().first.second;
+            int dis=q.front().second;
             q.pop();
-            int dis=it.first;
-            int row=it.second.first;
-            int col=it.second.second;
+            if(r==destination.first && c==destination.second) ans=min(ans,dis);
+            
+            int dx[4]={-1,0,1,0};
+            int dy[4]={0,1,0,-1};
             
             for(int i=0; i<4; i++){
-                int nr=row+dx[i];
-                int nc=col+dy[i];
+                int nr=r+dx[i], nc=c+dy[i];
                 
-                if(nr>=0 && nc>=0 && nr<n && nc<m && grid[nr][nc]==1 && dist[nr][nc]>dis+1){
-                    dist[nr][nc]=dis+1;
-                    
-                    if(nr==destination.first && nc==destination.second) {return dist[nr][nc];}
-                    q.push({dist[nr][nc],{nr,nc}});
+                if(nr>=0 && nr<n && nc>=0 && nc<m && grid[nr][nc]==1 && !vis[nr][nc]){
+                    vis[nr][nc]=1;
+                    q.push({{nr,nc},dis+1});
                 }
             }
+        
         }
-        return -1;
+        
+        if(ans==INT_MAX) return -1;
+        return ans;
     }
 };
 
@@ -70,7 +68,9 @@ int main() {
         cin >> destination.first >> destination.second;
         Solution obj;
         cout << obj.shortestPath(grid, source, destination) << endl;
-    }
+    
+cout << "~" << "\n";
+}
 }
 
 // } Driver Code Ends

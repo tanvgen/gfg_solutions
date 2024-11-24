@@ -1,6 +1,4 @@
 //{ Driver Code Starts
-// Initial Template for C++
-
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -10,32 +8,24 @@ using namespace std;
 
 class Solution {
   public:
-    int maxLen(vector<int>& arr, int n) {
-        // Your code here
-        // vector<int> presum(n,0);
-        // presum[0]=arr[0];
-        // for(int i=1; i<n; i++){
-        //     presum[i]=arr[i]+presum[i-1];
-        // }
-        int len=0;
+    int maxLen(vector<int>& arr) {
+        // code here
+        int n=arr.size();
+        unordered_map<int,int> mp;
+        
+        int ans=0;
         int sum=0;
-        int i=0, j=0;
-        unordered_map<int,int>mp;
-        while(j<n){
-            sum+=arr[j];
-            if(sum==0){
-                len=max(len,j+1);
-            }
+        for(int i=0; i<n; i++){
+            sum+=arr[i];
+            
+            if(sum==0) ans=max(ans,i+1);
             if(mp.find(sum)!=mp.end()){
-                len=max(len,j-mp[sum]);
-                //i=j;
+                ans=max(ans,i-mp[sum]);
             }
-            else{
-                mp[sum]=j;
-            }
-            j++;
+            
+            else mp[sum]=i;
         }
-        return len;
+        return ans;
     }
 };
 
@@ -45,16 +35,24 @@ class Solution {
 int main() {
     int t;
     cin >> t;
+    cin.ignore(); // to ignore the newline after the integer input
     while (t--) {
-        int m;
-        cin >> m;
-        vector<int> array1(m);
-        for (int i = 0; i < m; ++i) {
-            cin >> array1[i];
-        }
-        Solution ob;
-        cout << ob.maxLen(array1, m) << endl;
+        int n;
+        vector<int> a;
+        string input;
+
+        // Input format: first number n followed by the array elements
+        getline(cin, input);
+        stringstream ss(input);
+        int num;
+        while (ss >> num)
+            a.push_back(num);
+
+        Solution obj;
+        cout << obj.maxLen(a) << endl;
+        cout << "~\n";
     }
+
     return 0;
 }
 

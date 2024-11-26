@@ -6,30 +6,27 @@ using namespace std;
 
 
 // } Driver Code Ends
-// User function template in C++
-
 class Solution {
   public:
-    // Function to find minimum number of pages.
-    long long max_students(int n, vector<int> &arr, int val){
-        int ans=0;
-        int max_pages=0;
+    int solve(int mid, vector<int> &arr, int n){
+        int ctr=0;
+        int sum=0;
         for(int i=0; i<n; i++){
-            if(arr[i]+max_pages<=val){
-                max_pages+=arr[i];
+            if(sum+arr[i]<=mid){
+                sum+=arr[i];
             }
             else{
-                max_pages=arr[i];
-                ans++;
+                sum=arr[i];
+                ctr++;
             }
         }
-        ans++;
-        return ans;
+        ctr++;
+        return ctr;
     }
-    long long findPages(vector<int> &arr, int m) {
+    int findPages(vector<int> &arr, int k) {
         // code here
         int n=arr.size();
-        if(n<m) return -1;
+        if(k>n) return -1;
         long long low=*max_element(arr.begin(),arr.end());
         long long high=0;
         for(int i=0; i<n; i++){
@@ -37,17 +34,14 @@ class Solution {
         }
         while(low<=high){
             long long mid=(low+high)/2;
-            if(max_students(n,arr,mid)<=m){
-                high=mid-1;
-            }
-            else{
+            if(solve(mid,arr,n)>k){
                 low=mid+1;
             }
+            else high=mid-1;
         }
         return low;
     }
 };
-
 
 //{ Driver Code Starts.
 
@@ -77,6 +71,9 @@ int main() {
         Solution ob;
         int ans = ob.findPages(arr, d);
         cout << ans << endl;
+
+        cout << "~"
+             << "\n";
     }
     return 0;
 }
